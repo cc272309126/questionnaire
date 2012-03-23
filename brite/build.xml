@@ -1,0 +1,52 @@
+<project name="Questionnaire" default="compile" basedir=".">
+	<property file="${user.home}/.ant-global.properties" />
+
+	<import file="${lib.dir}/ApplicationGeneratorMacros.xml" />
+
+	<target name="generate">
+		<delete dir="gen"/>
+		<ApplicationGenerator model="QuestionnaireModel.xml" output="gen"/>
+	</target>
+
+	<target name="compiler">
+	</target>
+
+	<target name="compile">
+		<ant dir="wservice" target="compile" />
+		<antcall target="generate"/>
+		<ant dir="gen" target="compile" />
+	</target>
+
+	<target name="install" depends="generate">
+		<ant dir="wservice" target="compile" />
+		<ant dir="gen" target="install" />
+	</target>
+
+	<target name="clean">
+		<ant dir="wservice" target="clean" />
+		<delete dir="gen"/>	
+	</target>
+
+	<target name="installer" depends="compile">
+		<ant dir="gen" target="installer" />
+	</target>
+
+	<target name="dist" depends="installer">
+	</target>
+
+	<target name="data">
+	</target>
+
+	<target name="documentation">
+	</target>
+	
+	<target name="unittest">
+	</target>
+
+	<target name="servicetest">
+	</target>
+	
+	<target name="functionaltest">
+	</target>
+
+</project>

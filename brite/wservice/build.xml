@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project name="QuestionnaireMobileService" default="compile" basedir=".">
+	<property file="${user.home}/.ant-global.properties"/>
+	<property name="tarfile" value="${dist.dir}/${ant.project.name}.tar"/>
+	<property name="output" value="output"/>
+	<property name="jarfile" value="${ant.project.name}.jar"/>
+	
+	<import file="${lib.dir}/WisdomCompilerMacros.xml"/>
+	<import file="${lib.dir}/WebAppMacros.xml"/>
+	<import file="${lib.dir}/JavaMacros.xml" />
+	<import file="${lib.dir}/RestMacros.xml" />
+
+	<target name="compile" depends="clean">
+		<path id="service.classpath">
+			<fileset dir="${lib.dir}">
+				<include name="servlet-api.jar"/>
+				<include name="DatabaseConnector.jar"/>
+				<include name="joda-*.jar"/>
+				<include name="log4j-*.jar"/>
+				<include name="commons-codec*.jar"/>
+				<include name="json.jar"/>
+			</fileset>
+			<fileset dir="lib/jfreechart-1.0.13/lib">
+				<include name="jfreechart-1.0.13.jar"/>
+				<include name="jcommon-1.0.16.jar"/>
+			</fileset>
+		</path>
+		<javacompile srcdir="src" jarfile="${jarfile}" libid="service.classpath" />
+		<WebAppModuleCompile module="QuestionnaireMobileService"/>
+	</target>
+	
+	<target name="compiler">
+		<WebAppModuleCompile module="QuestionnaireMobileService"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${output}"/>
+	</target>
+</project>

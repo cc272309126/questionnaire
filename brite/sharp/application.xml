@@ -1,0 +1,15 @@
+<application xmlns="http://tide.act.nato.int/brite/app-spec" >
+	<components>
+		<group id="QuestionnaireGroup">
+			<details id="Questionnaire"> 
+					<actions>
+						<action>
+							<button label="Delete All Answers" icon="brite-icon-delete" confirmation="Would you like to delete all user answers for this questionnaire ?"  permission="DeleteQuestionnaire">
+								<call method="deleteAllUserAnswers"/>
+							</button>
+						</action>
+					</actions>
+			</details>	
+		</group>
+	</components>
+</application>

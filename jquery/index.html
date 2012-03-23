@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Questionnaire</title >
+
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+	<link rel="stylesheet" href="jquery.mobile-1.0rc1/jquery.mobile-1.0rc1.min.css" />
+	 
+	<script src="jquery-1.6.4/jquery-1.6.4.min.js"></script>
+	<script src="jquery.mobile-1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
+	<!--<script src="highcharts-2.1.7/js/highcharts.js"></script>-->
+
+  	<!--
+  	<script src="jqplot-1.0.0b2/jquery.jqplot.min.js"></script>
+  	<script class="include" language="javascript" type="text/javascript" src="jqplot-1.0.0b2/plugins/jqplot.barRenderer.min.js"></script>
+  	<script class="include" language="javascript" type="text/javascript" src="jqplot-1.0.0b2/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+  	<script class="include" language="javascript" type="text/javascript" src="jqplot-1.0.0b2/plugins/jqplot.pointLabels.min.js"></script>
+	-->
+	
+    <!-- Application JS -->
+    <script type="text/javascript" src="Questionnaire-debug.js"></script>
+</head>
+<body>
+
+	<div  data-role="page" id="list_page" data-theme="a"> 
+		<div data-role="header">
+			<h1>Surveys</h1>
+		</div> 
+		<div data-role="content">
+			<ul data-role="listview" id="questionnaires"/> 
+		</div> 
+	</div> 
+
+
+
+	<div  data-role="page" id="questionnaire_page" data-theme="a"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content">
+			<div id="description" style="margin:auto;width:80%;text-align:justify;">Description</div>
+			<fieldset class="ui-grid-a" style="margin-top:20px" id="with_list"> 
+				<div class="ui-block-a"><a href="#list_page" data-role="button" data-direction="reverse" data-icon="arrow-l" style="width:120px; margin-left:auto; margin-right:10px;">Back</a></div>
+				<div class="ui-block-b"><a href="javascript:startQuestions()" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin-right:auto; margin-left:10px;">Start</a></div>
+			</fieldset> 
+			<a id="without_list" href="javascript:startQuestions()" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin:0 auto;margin-top:20px">Start</a>
+		</div> 
+	</div> 
+
+
+
+	<div  data-role="page" id="question_page" data-theme="a"  data-title="Question"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content">
+			<h3 id="question" style="margin:auth;width=80%;text-align:center">Question</h3> 
+			<div style="margin-top:30px;margin-bottom:0px;font-size:14px;">Question (<span id="question_index">X</span> of <span id="question_total">Y</span>) : <span id="question_help">Z</span></div> 
+			<div id="error_message" style="color:red;margin-top:0px;"></div> 
+     		<form id="answersform" action="#" method="post" data-theme="a"> 
+				<div id="answers"></div>
+
+				<fieldset class="ui-grid-a" style="margin-top:30px;" id="submit_all_questions">
+					<div class="ui-block-b"><a href="javascript:validateAnswers(-1)" data-role="button" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin-left:auto; margin-right:10px;">Back</a></div>
+					<div class="ui-block-b"><a href="javascript:validateAnswers(1)" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin-right:auto; margin-left:10px;">Next</a></div>
+				</fieldset>
+				<a id="submit_single_question" href="javascript:validateAnswers(1)" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin:0 auto; margin-top:20px;">Next</a>
+     		</form>
+		</div> 
+	</div> 
+
+
+
+	<div data-role="page" id="summary_page" data-theme="a"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content">
+			<div id="summary"></div> 
+			<fieldset class="ui-grid-a" style="margin-top:20px"> 
+				<div class="ui-block-a"><a href="javascript:displayLastQuestion()" data-role="button" data-direction="reverse" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin-left:auto; margin-right:10px;">Back</a></div>
+				<div class="ui-block-b"><a href="javascript:submitAnswers()" data-role="button" data-icon="check" data-iconpos="right" style="width:120px; margin-right:auto; margin-left:10px;">Submit</a></div>
+			</fieldset> 
+		</div> 
+	</div> 
+
+
+
+	<div data-role="page" id="thanks_page" data-theme="a"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content" style="margin:auto;width:70%;text-align:center;">
+			Thank you for answering the questions!
+			<br/>&nbsp;
+			<br/>
+			<fieldset class="ui-grid-a" style="margin-top:20px" id="thanks_charts_available"> 
+				<div class="ui-block-b"><a href="javascript:displayQuestionnaireHomePage()" data-role="button" data-direction="reverse" data-icon="arrow-l" data-iconpos="left" style="width:160px; margin-left:auto; margin-right:10px;">Back</a></div>
+				<div class="ui-block-b"><a href="#chart_page?index=0" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:160px; margin-right:auto; margin-left:10px;">See results</a></div>
+			</fieldset>
+			<a id="thanks_no_charts" href="javascript:displayQuestionnaireHomePage()" data-role="button" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin:0 auto; margin-top:20px;">Back</a>
+			
+<!--			<a href="javascript:displayQuestionnaireHomePage()" data-role="button" data-direction="reverse" data-icon="home" data-iconpos="left" style="width:120px; margin:auto;">Back</a>-->
+		</div> 
+	</div> 
+
+
+	<div data-role="page" id="already_answered_page" data-theme="a"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content" style="margin:auto;width:80%;text-align:center; ">
+			You have already answered all questions. 
+			<br/>&nbsp;
+			<br/>
+			<b>Thank you!</b>
+			<br/>&nbsp;
+			<br/>
+			<fieldset class="ui-grid-a" style="margin-top:20px" id="charts_available"> 
+				<div class="ui-block-b"><a href="javascript:displayQuestionnaireHomePage()" data-role="button" data-direction="reverse" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin-left:auto; margin-right:10px;">Back</a></div>
+				<div class="ui-block-b"><a href="#chart_page?index=0" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin-right:auto; margin-left:10px;">Results</a></div>
+			</fieldset>
+			<a id="no_charts" href="javascript:displayQuestionnaireHomePage()" data-role="button" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin:0 auto; margin-top:20px;">Back</a>
+		</div> 
+	</div> 
+
+
+	<div  data-role="page" id="chart_page" data-theme="a"  data-title="Chart"> 
+		<div data-role="header">
+			<h1>Title</h1>
+		</div> 
+		<div data-role="content">
+			<div class="ui-bar ui-bar-b">
+				Chart (<span id="chart_index">X</span> of <span id="chart_total">Y</span>):  <h1 id="chart_title">Chart Title</h1>
+			</div>
+			<div id="chart_image" style="height:500px;">Chart</div> 
+			
+			<fieldset class="ui-grid-a" style="margin-top:30px;">
+				<div class="ui-block-b"><a href="javascript:showChart(-1)" data-role="button" data-icon="arrow-l" data-iconpos="left" style="width:120px; margin-left:auto; margin-right:10px;">Back</a></div>
+				<div class="ui-block-b"><a href="javascript:showChart(1)" data-role="button" data-icon="arrow-r" data-iconpos="right" style="width:120px; margin-right:auto; margin-left:10px;">Next</a></div>
+			</fieldset>
+		</div> 
+	</div> 
+
+
+</body>
+</html> 
+
+

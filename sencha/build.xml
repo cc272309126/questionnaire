@@ -1,0 +1,36 @@
+<project name="QuestionnaireSencha" default="compile" basedir=".">
+	<property file="${user.home}/.ant-global.properties" />
+
+	<import file="${lib.dir}/JavascriptMacros.xml"/>
+
+	<target name="compile">
+		<mkdir dir="output"/> 
+		
+		<combinejs dest="${basedir}/output/js/Questionnaire">
+			<filelist dir="src">
+				<file name="QuestionnaireApp.js"/>
+				<file name="Models.js"/>
+				<file name="AppPanel.js"/>
+				<file name="QuestionnaireList.js"/>
+				<file name="Question.js"/>
+				<file name="Summary.js"/>
+				<file name="Chart.js"/>
+			</filelist>
+		</combinejs>
+		
+		<war destfile="output/${ant.project.name}.war" webxml="web.xml">
+		  <fileset dir="output/js"/>
+		  <fileset dir="resources"/>
+		  <fileset dir="lib"/>
+		  <fileset file="index.html"/>
+		</war>
+	</target>
+
+	<target name="install" depends="compile">
+		<unwar src="output/${ant.project.name}.war" dest="${applications.home}/Questionnaire/sharp/webapps/${ant.project.name}"/>
+	</target>
+
+	<target name="clean">
+	</target>
+
+</project>

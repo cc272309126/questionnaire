@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+  <servlet>
+    <servlet-name>MobileService</servlet-name>
+    <display-name>MobileService</display-name>
+    <servlet-class>nato.act.tide.questionnaire.QuestionnaireMobileServiceServlet</servlet-class>
+    <load-on-startup/>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MobileService</servlet-name>
+    <url-pattern>/mobile/*</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

@@ -1,0 +1,24 @@
+<o:program xmlns:o="http://www.o-xml.org/lang/"
+	xmlns:db="http://www.o-xml.com/db/"
+	xmlns:java="http://www.o-xml.com/java/"
+>
+ <o:import href="functions.oml"/>
+
+<o:param name="request"/>
+
+
+<o:variable name="recordId" select="$request/*/dataId/text()"/>
+
+<db:execute connection="wisdom" sql="
+	DELETE FROM t_quest_useranswer
+		WHERE question IN (
+		   SELECT id
+			  FROM t_quest_question 
+			  WHERE questionnaire = {nullMassage($recordId,'Numeric')}
+		)"/>
+
+<status>OK</status>
+ 
+</o:program>
+
+

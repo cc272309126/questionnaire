@@ -1,0 +1,232 @@
+<Application xmlns="http://tide.act.nato.int/brite/app">
+
+	<ImportModel file="nato/act/tide/app/brite/BriteFrameworkModel.xml"/>
+
+	<DomainModel id="Questionnaire" name="Questionnaire">
+		<description>
+			Questionnaire
+		</description>
+
+		<DataModel>
+			<data>
+				<entity id="Questionnaire" name="Questionnaire" pluralName="Questionnaires" label="title">
+					<description>
+					</description>
+				
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<string id="title" name="Title" maxLength="200" allowNull="false">
+						<description>The title of the contact.</description>
+					</string>
+					<text id="description" name="Description" allowNull="false">
+						<description>Description.</description>
+					</text>
+					<enum id="submitmode" name="Submit Mode" enumerationId="SubmitMode" defaultValue="0" allowNull="false">
+						<description>Submit Mode.</description>
+					</enum>
+					<boolean id="active" name="Active" defaultValue="True">
+						<description>Active.</description>
+					</boolean>
+					
+					<list id="questions" name="Questions" foreignEntityId="Question" foreignKeyId="questionnaire" readOnly="true"/>
+					<list id="charts" name="Charts" foreignEntityId="Chart" foreignKeyId="questionnaire"/>
+				</entity>
+
+				<entity id="Question" name="Question" pluralName="Questions" label="question" order="index">
+					<description>
+						Question.
+					</description>
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<foreignKey id="questionnaire" name="Questionnaire" foreignEntityId="Questionnaire" allowNull="false">
+						<description />
+					</foreignKey>
+					<integer id="index" name="Order" defaultValue="0">
+						<description />
+					</integer>
+					<string id="question" name="Question" allowNull="false">
+						<description>Question.</description>
+					</string>
+					<boolean id="multiple" name="Multiple choice" defaultValue="false" allowNull="false">
+						<description>Multiple choice.</description>
+					</boolean>
+					<integer id="allowed" name="Max Answers Allowed" defaultValue="1" min="1" allowNull="false">
+						<description />
+					</integer>
+					<list id="answers" name="Answers" foreignEntityId="Answer" foreignKeyId="question"/>
+				</entity>
+
+				<entity id="Answer" name="Answer" pluralName="Answers" label="answer" order="index">
+					<description>
+						Answer.
+					</description>
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<foreignKey id="question" name="Question" foreignEntityId="Question" allowNull="false">
+						<description />
+					</foreignKey>
+					<integer id="index" name="Order" defaultValue="0">
+						<description />
+					</integer>
+					<string id="answer" name="Answer" allowNull="false">
+						<description>Answer.</description>
+					</string>
+				</entity>
+
+
+				<entity id="Chart" name="Chart" pluralName="Charts" label="name" order="index">
+					<description>
+						Chart.
+					</description>
+				
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<foreignKey id="questionnaire" name="Questionnaire" foreignEntityId="Questionnaire" allowNull="false">
+						<description />
+					</foreignKey>
+					<integer id="index" name="Order" defaultValue="0">
+						<description />
+					</integer>
+					<string id="name" name="Name" allowNull="false">
+						<description>Name.</description>
+					</string>
+					<enum id="type" name="Chart Type" enumerationId="ChartType" defaultValue="'bar'">
+						<description>Chart Type.</description>
+					</enum>
+					<foreignKey id="question" name="Question" foreignEntityId="Question" allowNull="false">
+						<description />
+					</foreignKey>
+					<foreignKey id="diversify" name="Diversify By" foreignEntityId="Question">
+						<description />
+					</foreignKey>
+				</entity>
+
+				<entity id="User" name="User" pluralName="Users" label="name">
+					<description>
+					</description>
+				
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<string id="name" name="Name" allowNull="true">
+						<description>User.</description>
+					</string>
+					<string id="tideacc" name="Tidepedia Account" allowNull="true">
+						<description>Tidepedia Account.</description>
+					</string>
+					<text id="comment" name="Comment">
+						<description>Comment.</description>
+					</text>
+					<list id="answers" name="Answers" foreignEntityId="UserAnswer" foreignKeyId="person" readOnly="true"/>
+				</entity>
+
+
+				<entity id="UserAnswer" name="User Answer" pluralName="User Answers">
+					<description>
+					</description>
+				
+					<serial id="id" name="ID" key="true">
+						<description />
+					</serial>
+					<foreignKey id="person" name="User" foreignEntityId="User" allowNull="false">
+						<description />
+					</foreignKey>
+					<foreignKey id="question" name="Question" foreignEntityId="Question" allowNull="false">
+						<description />
+					</foreignKey>
+					<foreignKey id="answer" name="Answer" foreignEntityId="Answer" allowNull="false">
+						<description />
+					</foreignKey>
+				</entity>
+
+			</data>
+
+			<enumerations>
+				<enumeration id="ChartType" name="Chart Type" pluralName="Chart Types">
+					<key>
+						<string name="Chart Type Code" id="code" key="true" maxLength="6">
+							<description>Chart Type Code.</description>
+						</string>
+					</key>
+					<value>
+						<string name="Chart Type" id="ChartType_label" maxLength="50">
+							<description>Chart Type.</description>
+						</string>
+					</value>
+					<legalValues>
+						<value name="Bar">bar</value>
+						<value name="Column">column</value>
+						<value name="Pie">pie</value>
+						<value name="Radar">radar</value>
+					</legalValues>
+				</enumeration>
+				
+
+				<enumeration id="SubmitMode" name="Submit Mode" pluralName="Submit Modes">
+					<key>
+						<integer name="Submit Mode code" id="SubmitMode" key="true">
+							<description>Submit Mode.</description>
+						</integer>
+					</key>
+					<value>
+						<string name="Submit Mode" id="Submit Mode_label" maxLength="50">
+							<description>Submit Mode.</description>
+						</string>
+					</value>
+					<legalValues>
+						<value name="Submit all answers together">0</value>
+						<value name="Submit each question separately">1</value>
+					</legalValues>
+				</enumeration>
+				
+			</enumerations>
+		</DataModel>
+
+
+		<FunctionalModel>
+			<entitiesCapabilities>
+				<capabilities entityId="Questionnaire">
+					<data editable="true" multiplicity="many"/>
+					<security level="access"/>
+				</capabilities>
+				<capabilities entityId="Question">
+					<data editable="true" multiplicity="many"/>
+					<security level="access"/>
+				</capabilities>
+				<capabilities entityId="User">
+					<data editable="true" multiplicity="many"/>
+					<security level="access"/>
+				</capabilities>
+				<capabilities entityId="UserAnswer">
+					<data editable="false" multiplicity="many"/>
+					<security level="access"/>
+				</capabilities>
+			</entitiesCapabilities>
+		</FunctionalModel>
+
+	</DomainModel>
+	
+	
+	<ImplementationModel>
+		<DatabaseModel schema="questionnaire" prefix="t_quest">
+		</DatabaseModel>
+
+		<ServiceModel serviceType="tinf-quest">
+			<method name="deleteAllUserAnswers" file="wservice/deleteAllUserAnswers.oml"/>
+			<webModule name="QuestionnaireMobileService"/>
+			<jar file="wservice/output/QuestionnaireMobileService.jar"/>
+			<jar file="wservice/lib/jfreechart-1.0.13/lib/jfreechart-1.0.13.jar"/>
+			<jar file="wservice/lib/jfreechart-1.0.13/lib/jcommon-1.0.16.jar"/>
+		</ServiceModel>
+
+		<GuiModel componentDir="sharp">
+			<application logo="questionnare_logo.jpg" banner="questionnare_banner.gif"/>
+		</GuiModel>
+		
+	</ImplementationModel>
+	
+</Application>
