@@ -40,6 +40,9 @@
 					<serial id="id" name="ID" key="true">
 						<description />
 					</serial>
+					<integer id="publicId" name="Question Id" readOnly="true" scope="public" allowNull="true">
+						<description>Question Id</description>
+					</integer>
 					<foreignKey id="questionnaire" name="Questionnaire" foreignEntityId="Questionnaire" allowNull="false">
 						<description />
 					</foreignKey>
@@ -65,6 +68,9 @@
 					<serial id="id" name="ID" key="true">
 						<description />
 					</serial>
+					<integer id="publicId" name="Answer Id" readOnly="true" scope="public" allowNull="true">
+						<description>Answer Id</description>
+					</integer>
 					<foreignKey id="question" name="Question" foreignEntityId="Question" allowNull="false">
 						<description />
 					</foreignKey>
@@ -213,6 +219,13 @@
 	
 	<ImplementationModel>
 		<DatabaseModel schema="questionnaire" prefix="t_quest">
+			<table name="question" entityId="Question">
+				<column attributeId="publicId"  function="id"/>
+			</table>
+			<table name="answer" entityId="Answer">
+				<column attributeId="publicId"  function="id"/>
+			</table>
+		
 		</DatabaseModel>
 
 		<ServiceModel serviceType="tinf-quest">
