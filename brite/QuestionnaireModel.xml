@@ -33,7 +33,7 @@
 					<list id="charts" name="Charts" foreignEntityId="Chart" foreignKeyId="questionnaire"/>
 				</entity>
 
-				<entity id="Question" name="Question" pluralName="Questions" label="question" order="index">
+				<entity id="Question" name="Question" pluralName="Questions" label="label" order="index">
 					<description>
 						Question.
 					</description>
@@ -51,6 +51,9 @@
 					</integer>
 					<string id="question" name="Question" allowNull="false">
 						<description>Question.</description>
+					</string>
+					<string id="label" name="Label" allowNull="false" scope="protected">
+						<description>Label.</description>
 					</string>
 					<boolean id="multiple" name="Multiple choice" defaultValue="false" allowNull="false">
 						<description>Multiple choice.</description>
@@ -221,6 +224,7 @@
 		<DatabaseModel schema="questionnaire" prefix="t_quest">
 			<table name="question" entityId="Question">
 				<column attributeId="publicId"  function="id"/>
+				<column attributeId="label"  function="('('::text || id::text || ') - '::text || question)"/>
 			</table>
 			<table name="answer" entityId="Answer">
 				<column attributeId="publicId"  function="id"/>
