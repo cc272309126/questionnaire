@@ -297,6 +297,11 @@ function submitAnswers(nr) {
 }
 
 
+function startCharts() {
+	$.mobile.changePage('#chart_page?index=0','slide');
+}
+
+
 function showChart(change) {
 	var newChart = QuestionnaireApp.chartIndex + change;
 	if((newChart < 0) || (newChart == QuestionnaireApp.questionnaire.charts.length)) {
