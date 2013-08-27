@@ -12,6 +12,12 @@
 				<file name="ChartsHighCharts.js"/>
 			</filelist>
 		</combinejs>
+		<combinejs dest="${basedir}/output/js/Questionnaire">
+			<filelist dir="src">
+				<file name="QuestionnaireApp.js"/>
+				<file name="ChartsHighCharts.js"/>
+			</filelist>
+		</combinejs>
 		
 		<war destfile="output/${ant.project.name}.war" webxml="web.xml">
 		  <fileset dir="output/js"/>
